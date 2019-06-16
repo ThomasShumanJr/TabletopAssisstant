@@ -35,9 +35,9 @@
     <Button
             android:text="Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button"/>
+            android:layout_height="wrap_content" android:id="@+id/button" android:baselineAligned="false"/>
     <ImageButton
-            android:layout_width="88dp"
+            android:layout_width="39dp"
             android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_input_add"
             android:id="@+id/imageButton"/>
 
