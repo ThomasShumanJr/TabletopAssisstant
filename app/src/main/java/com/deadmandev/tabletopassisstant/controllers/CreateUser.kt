@@ -2,6 +2,7 @@ package com.deadmandev.tabletopassisstant.controllers
 
 
 import android.content.Intent
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
@@ -11,24 +12,25 @@ import com.deadmandev.tabletopassisstant.R
 import com.deadmandev.tabletopassisstant.services.AuthService
 import com.deadmandev.tabletopassisstant.services.UserDataService
 import com.deadmandev.tabletopassisstant.utilities.BROADCAST_USER_DETAIL_CHANGE
-import kotlinx.android.synthetic.main.activity_sign_up_user.*
+import kotlinx.android.synthetic.main.content_create_user.*
 import java.util.*
 
-class  SignUpUser : AppCompatActivity() {
+class  CreateUser : AppCompatActivity() {
 
     private var userAvatar = "profileDefault"
+    private var avatarColor = "[0.5, 0.5, 0.5, 1]"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up_user)
+        setContentView(R.layout.activity_create_user)
 
         createUserSpinner.visibility = View.INVISIBLE
     }
 
-    fun onSignUpCreateAccountButtonClick(view: View) {
+    fun onCreateUserAccountButtonClick(view: View) {
         enableSpinner(true)
-        val username = SignUpUsernameInput.text.toString()
-        val email = SignUpEmailInput.text.toString()
-        val password = SignUpPasswordInput.text.toString()
+        val username = createUserUsernameText.text.toString()
+        val email = createUserEmailText.text.toString()
+        val password = createUserPasswordText.text.toString()
 
         if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
             AuthService.registerUser(
@@ -76,7 +78,7 @@ class  SignUpUser : AppCompatActivity() {
         enableSpinner(false)
     }
 
-    fun onSignUpCreateAvatarImageButtonClick(view: View) {
+    fun onGenerateUserAvatarClick(view: View) {
         val random = Random()
         val theme = random.nextInt(2)
         val avatar = random.nextInt(28)
@@ -88,7 +90,23 @@ class  SignUpUser : AppCompatActivity() {
         }
 
         val resourceID = resources.getIdentifier(this.userAvatar, "drawable", packageName)
-        SignUpCreateAvatarImageButton.setImageResource(resourceID)
+        createAvatarImageView.setImageResource(resourceID)
+    }
+
+    fun generateBackgroundColorClicked(view:View) {
+        val random = Random()
+        val r = random.nextInt(225)
+        val g = random.nextInt(225)
+        val b = random.nextInt(255)
+
+        createAvatarImageView.setBackgroundColor(Color.rgb(r,g,b))
+
+        val savedR = r.toDouble()/255
+        val savedG = g.toDouble()/255
+        val savedB = b.toDouble()/255
+
+        avatarColor = "[$savedR, $savedG, $savedB, 1]"
+
     }
 
     fun enableSpinner(enable: Boolean) {
@@ -97,8 +115,8 @@ class  SignUpUser : AppCompatActivity() {
         } else {
             createUserSpinner.visibility = View.INVISIBLE
         }
-        SignUpCreateAccountButton.isEnabled = !enable
-        SignUpCreateAvatarImageButton.isEnabled = !enable
+        createUserCreateAccountButton.isEnabled = !enable
+        createAvatarImageView.isEnabled = !enable
 
     }
 }

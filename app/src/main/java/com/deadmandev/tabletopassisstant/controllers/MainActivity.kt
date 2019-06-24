@@ -90,11 +90,11 @@ class MainActivity : AppCompatActivity(){
     private var userDataChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if(App.sharedPreferences.isLoggedIn) {
-                NavHeaderUserName.text = UserDataService.name
-                NavHeaderUserEmail.text = UserDataService.email
+                userNameNavHeader.text = UserDataService.name
+                userEmailNavHeader.text = UserDataService.email
                 val resourceID = resources.getIdentifier(UserDataService.avatarName, "drawable", packageName)
-                NavHeaderProfileImage.setImageResource(resourceID)
-                NavHeaderLoginButton.text = "LOGOUT"
+                userImagaNavHeader.setImageResource(resourceID)
+                loginButtonNavHeader.text = "LOGOUT"
 
                 MessageService.getChannels{ complete ->
                     if(complete) {
@@ -140,10 +140,10 @@ class MainActivity : AppCompatActivity(){
             UserDataService.logout()
             channelAdapter.notifyDataSetChanged()
             messageAdapter.notifyDataSetChanged()
-            NavHeaderUserName.text = R.string.log_in.toString()
-            NavHeaderUserEmail.text = ""
-            NavHeaderProfileImage.setImageResource(R.drawable.profiledefault)
-            NavHeaderLoginButton.text = R.string.log_in.toString()
+            userNameNavHeader.text = R.string.log_in.toString()
+            userEmailNavHeader.text = ""
+            userImagaNavHeader.setImageResource(R.drawable.profiledefault)
+            loginButtonNavHeader.text = R.string.log_in.toString()
             activeChannelName.text = R.string.please_log_in.toString()
         }
         else {
@@ -216,7 +216,7 @@ class MainActivity : AppCompatActivity(){
 
                     MessageService.messages.add(newMessage)
                     messageAdapter.notifyDataSetChanged()
-                    messagesRecyclerView.smoothScrollToPosition(messageAdapter.itemCount - 1)
+                    messageListReview.smoothScrollToPosition(messageAdapter.itemCount - 1)
                 }
             }
         }
@@ -230,12 +230,12 @@ class MainActivity : AppCompatActivity(){
         }
     }
     fun onSendMessageButtonClick(view: View){
-        if(App.sharedPreferences.isLoggedIn && sendMessageInput.text.isNotEmpty() && selectedChannel != null) {
+        if(App.sharedPreferences.isLoggedIn && messageTextField.text.isNotEmpty() && selectedChannel != null) {
             val userID = UserDataService.id
             val channelID = selectedChannel!!.id
-            socket.emit("newMessage", sendMessageInput.text.toString(), userID, channelID,
+            socket.emit("newMessage", messageTextField.text.toString(), userID, channelID,
                 UserDataService.name, UserDataService.avatarName)
-            sendMessageInput.text.clear()
+            messageTextField.text.clear()
             hideKeyboard()
         }
 
@@ -249,7 +249,7 @@ class MainActivity : AppCompatActivity(){
                 if(complete) {
                     messageAdapter.notifyDataSetChanged()
                     if(messageAdapter.itemCount > 0) {
-                        messagesRecyclerView.smoothScrollToPosition(messageAdapter.itemCount - 1)
+                        messageListReview.smoothScrollToPosition(messageAdapter.itemCount - 1)
                     }
                 }
             }

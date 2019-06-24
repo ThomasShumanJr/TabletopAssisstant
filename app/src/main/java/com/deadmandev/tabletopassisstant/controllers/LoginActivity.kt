@@ -166,4 +166,3 @@ object AuthService {
         }
         App.sharedPreferences.requestQueue.add(findUserRequest)
     }
-}
