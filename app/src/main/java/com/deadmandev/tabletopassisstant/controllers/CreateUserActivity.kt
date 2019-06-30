@@ -11,11 +11,12 @@ import android.widget.Toast
 import com.deadmandev.tabletopassisstant.R
 import com.deadmandev.tabletopassisstant.services.AuthService
 import com.deadmandev.tabletopassisstant.services.UserDataService
+import com.deadmandev.tabletopassisstant.services.UserDataService.avatarName
 import com.deadmandev.tabletopassisstant.utilities.BROADCAST_USER_DETAIL_CHANGE
 import kotlinx.android.synthetic.main.content_create_user.*
 import java.util.*
 
-class  CreateUser : AppCompatActivity() {
+class  CreateUserActivity : AppCompatActivity() {
 
     private var userAvatar = "profileDefault"
     private var avatarColor = "[0.5, 0.5, 0.5, 1]"
@@ -27,24 +28,25 @@ class  CreateUser : AppCompatActivity() {
     }
 
     fun onCreateUserAccountButtonClick(view: View) {
+
         enableSpinner(true)
         val username = createUserUsernameText.text.toString()
         val email = createUserEmailText.text.toString()
         val password = createUserPasswordText.text.toString()
 
-        if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-            AuthService.registerUser(
-                email,
+        if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
+
+            AuthService.registerUser(email,
                 password
-            ) { registerSuccess ->
-                if (registerSuccess) {
-                    println("User registered successfully")
-                    AuthService.loginUser(email, password) { loginSuccess ->
+            ) { complete ->
+                if (complete) {
+                    Toast.makeText( this,"Registration Successful", Toast.LENGTH_LONG).show()
+                    AuthService.loginUser(email,
+                        password
+                    ) { loginSuccess ->
                         if (loginSuccess) {
-                            println("User successfully logged in")
-                            println(App.sharedPreferences.authToken)
-                            println(App.sharedPreferences.userEmail)
-                            AuthService.createUser( username, email, userAvatar) { createSuccess ->
+                            Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show()
+                            AuthService.createUser( username, email, userAvatar, avatarColor) { createSuccess ->
                                 if (createSuccess) {
 
                                     val userDataChange = Intent(BROADCAST_USER_DETAIL_CHANGE)
@@ -53,22 +55,22 @@ class  CreateUser : AppCompatActivity() {
                                     enableSpinner(false)
                                     finish()
                                 } else {
-                                    println("User creation failed")
                                     errorToast()
                                 }
+
                             }
                         } else {
-                            println("User auth failed")
                             errorToast()
                         }
                     }
+
                 } else {
-                    println("User registration failed")
                     errorToast()
                 }
+
             }
-        } else {
-            Toast.makeText(this, "Make sure username, email and password are not empty", Toast.LENGTH_LONG).show()
+        }else{
+            Toast.makeText(this, "Make sure user name, email and password are filled in", Toast.LENGTH_LONG).show()
             enableSpinner(false)
         }
     }

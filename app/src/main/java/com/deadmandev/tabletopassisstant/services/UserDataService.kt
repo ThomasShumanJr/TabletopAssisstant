@@ -19,3 +19,4 @@ object UserDataService {
         MessageService.clearMessages()
         MessageService.clearChannels()
     }
+}

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.deadmandev.tabletopassisstant">
 
+    <uses-permission android:name="android.permision.INTERNET"/>
+
     <application
             android:name=".controllers.App"
             android:allowBackup="true"
@@ -11,11 +13,14 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
         <activity
-                android:name=".controllers.CreateUser"
-                android:label="@string/title_activity_create_user"
+                android:name=".controllers.LoginActivity"
+                android:label="@string/title_activity_login"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity
+                android:name=".controllers.CreateUserActivity"
+                android:label="@string/title_activity_create_user"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".controllers.MainActivity"
@@ -28,10 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".controllers.LoginActivity">
-        </activity>
-        <activity android:name=".controllers.SignUpUser">
-        </activity>
+
     </application>
 
 </manifest>

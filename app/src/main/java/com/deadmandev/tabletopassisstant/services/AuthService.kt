@@ -8,10 +8,8 @@ import com.android.volley.Request.Method.*
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.deadmandev.tabletopassisstant.utilities.*
-import com.seervi.smackchat.controllers.App
-import com.seervi.smackchat.utilities.*
+import com.deadmandev.tabletopassisstant.controllers.App
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -21,7 +19,7 @@ object AuthService {
     // var userEmail = ""
     // var authToken = ""
 
-    fun registerUser(context: Context, email: String, password: String, complete: (Boolean) -> Unit) {
+    fun registerUser(context: String, email: String, password: String, complete: (Boolean) -> Unit) {
 
         val jsonBody = JSONObject()
         jsonBody.put("email", email)
@@ -50,7 +48,7 @@ object AuthService {
         App.sharedPreferences.requestQueue.add(registerRequest)
     }
 
-    fun loginUser(context: Context, email: String, password: String, complete: (Boolean) -> Unit) {
+    fun loginUser(context: String, email: String, password: String, complete: (Boolean) -> Unit) {
 
         val jsonBody = JSONObject()
         jsonBody.put("email", email)
@@ -90,7 +88,7 @@ object AuthService {
         App.sharedPreferences.requestQueue.add(loginRequest)
     }
 
-    fun createUser(context: Context, name: String, email: String, avatarName: String, complete: (Boolean) -> Unit) {
+    fun createUser(context: String, name: String, email: String, avatarName: String, complete: (Boolean) -> Unit) {
 
         val jsonBody = JSONObject()
         jsonBody.put("name", name)

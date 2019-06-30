@@ -37,14 +37,17 @@ class MainActivity : AppCompatActivity(){
     lateinit var channelAdapter: ArrayAdapter<Channel>
     lateinit var messageAdapter: MessageAdapter
     var selectedChannel: Channel? = null
-    private fun setupAdapters() {
-        channelAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, MessageService.channels)
+    private fun setupAdapters(){
+
+        channelAdapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,MessageService.channels)
         channelList.adapter = channelAdapter
 
         messageAdapter = MessageAdapter(this, MessageService.messages)
-        messagesRecyclerView.adapter = messageAdapter
+        messageList.adapter = messageAdapter
+
         val layoutManager = LinearLayoutManager(this)
-        messagesRecyclerView.layoutManager = layoutManager
+        messageList.layoutManager = layoutManager
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
