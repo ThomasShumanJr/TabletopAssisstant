@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.content_main)
         setSupportActionBar(toolbar)
 
 
@@ -143,11 +143,11 @@ class MainActivity : AppCompatActivity(){
             UserDataService.logout()
             channelAdapter.notifyDataSetChanged()
             messageAdapter.notifyDataSetChanged()
-            userNameNavHeader.text = R.string.log_in.toString()
+            userNameNavHeader.text = ""
             userEmailNavHeader.text = ""
             userImagaNavHeader.setImageResource(R.drawable.profiledefault)
-            loginButtonNavHeader.text = R.string.log_in.toString()
-            activeChannelName.text = R.string.please_log_in.toString()
+            loginButtonNavHeader.text = "Login"
+            mainChannelName.text = "PLease Login"
         }
         else {
             val loginIntent = Intent(this, LoginActivity::class.java)
@@ -219,7 +219,7 @@ class MainActivity : AppCompatActivity(){
 
                     MessageService.messages.add(newMessage)
                     messageAdapter.notifyDataSetChanged()
-                    messageListReview.smoothScrollToPosition(messageAdapter.itemCount - 1)
+                    messageList.smoothScrollToPosition(messageAdapter.itemCount - 1)
                 }
             }
         }
@@ -245,14 +245,14 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun updateWithChannel() {
-        activeChannelName.text = "#${selectedChannel?.name}"
+        mainChannelName.text = "#${selectedChannel?.name}"
         // download messages for channel
         if(selectedChannel != null) {
             MessageService.getMessages(selectedChannel!!.id) { complete ->
                 if(complete) {
                     messageAdapter.notifyDataSetChanged()
                     if(messageAdapter.itemCount > 0) {
-                        messageListReview.smoothScrollToPosition(messageAdapter.itemCount - 1)
+                        messageList.smoothScrollToPosition(messageAdapter.itemCount - 1)
                     }
                 }
             }

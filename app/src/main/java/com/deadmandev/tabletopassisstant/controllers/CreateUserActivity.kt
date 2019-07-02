@@ -11,7 +11,6 @@ import android.widget.Toast
 import com.deadmandev.tabletopassisstant.R
 import com.deadmandev.tabletopassisstant.services.AuthService
 import com.deadmandev.tabletopassisstant.services.UserDataService
-import com.deadmandev.tabletopassisstant.services.UserDataService.avatarName
 import com.deadmandev.tabletopassisstant.utilities.BROADCAST_USER_DETAIL_CHANGE
 import kotlinx.android.synthetic.main.content_create_user.*
 import java.util.*
@@ -36,19 +35,14 @@ class  CreateUserActivity : AppCompatActivity() {
 
         if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
 
-            AuthService.registerUser(email,
-                password
-            ) { complete ->
+            AuthService.registerUser(email, password) { complete ->
                 if (complete) {
                     Toast.makeText( this,"Registration Successful", Toast.LENGTH_LONG).show()
-                    AuthService.loginUser(email,
-                        password
-                    ) { loginSuccess ->
+                    AuthService.loginUser(email, password) { loginSuccess ->
                         if (loginSuccess) {
                             Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show()
-                            AuthService.createUser( username, email, userAvatar, avatarColor) { createSuccess ->
+                            AuthService.createUser( username, email, userAvatar) { createSuccess ->
                                 if (createSuccess) {
-
                                     val userDataChange = Intent(BROADCAST_USER_DETAIL_CHANGE)
                                     LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
                                     println(UserDataService)
@@ -74,7 +68,6 @@ class  CreateUserActivity : AppCompatActivity() {
             enableSpinner(false)
         }
     }
-
     fun errorToast() {
         Toast.makeText(this, "Something went wrong...Please try again later", Toast.LENGTH_LONG).show()
         enableSpinner(false)

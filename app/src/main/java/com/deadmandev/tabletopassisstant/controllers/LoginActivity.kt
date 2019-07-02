@@ -25,28 +25,29 @@ class LoginActivity : AppCompatActivity() {
         val email = loginEmailText.text.toString()
         val password = loginPasswordText.text.toString()
         hideKeyboard()
-        if (email.isNotEmpty() && password.isNotEmpty()) {
-            AuthService.loginUser(email,
-                password
-            ) { loginSuccess ->
-                if (loginSuccess) {
-                    AuthService.findUserByEmail(this) { findSuccess ->
-                        if (findSuccess) {
+        if(email.isNotEmpty() && password.isNotEmpty()){
+            AuthService.loginUser(email,password)
+            {loginSuccess ->
+                if(loginSuccess){
+                    Toast.makeText(this,"Login success",Toast.LENGTH_LONG).show()
+                    AuthService.findUserByEmail(this){findSuccess ->
+                        if(findSuccess){
                             enableSpinner(false)
                             finish()
-                        } else {
+
+                        }else{
                             errorToast()
                         }
                     }
-                } else {
+                }else{
                     errorToast()
                 }
+
             }
-        } else {
-            Toast.makeText(this, "Please fill in both email and password", Toast.LENGTH_LONG).show()
+        }else{
+            Toast.makeText(this, "Please fill in email and password!", Toast.LENGTH_LONG).show()
         }
     }
-
     fun loginCreateUserBtnClicked(view: View) {
         val createUserIntent = Intent(this, CreateUserActivity::class.java)
         startActivity(createUserIntent)
